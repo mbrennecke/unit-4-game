@@ -2,8 +2,10 @@ var champPicked = false;
 
 $(document).ready(function() {
 	if (!champPicked) {
+		
 		$(".card").click(function(event) {
-			alert(event.target.id);
+			var picked = event.target;
+			alert($(picked).attr("data-cardElement"));
 		});
 	
 	}
