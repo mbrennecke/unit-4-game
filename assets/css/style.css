@@ -1,0 +1,19 @@
+body{
+	background-color: #111;
+}
+
+.jumbotron {
+	background-color: #111;
+}
+
+#main {
+	width: 1024px;
+	height: 433px;
+	background-image: url("../images/1024px-Environments-22-cave.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.card {
+	margin-bottom: 10px;
+}
