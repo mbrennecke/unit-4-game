@@ -15,6 +15,7 @@ body{
 }
 
 .card {
+	height: 330px;
 	margin-bottom: 10px;
 }
 

@@ -1,18 +1,19 @@
 var champPicked = false;
+var heroCard;
 
-$(document).ready(function() {
-	if (!champPicked) {
+function createHero() {
+	var picked = event.target;
+	picked = $(picked).attr("data-cardElement");
+	heroCard = ("#card" + picked);
+	$(heroCard).detach().appendTo("#slot2");
+	champPicked = true;
+	$("#instructions").html("&nbsp;");
+}
+
+
 		
-		$(".card").click(function(event) {
-			var picked = event.target;
-			alert($(picked).attr("data-cardElement"));
-		});
-	
+$(".card").click(function(event) {
+	if (champPicked == false) {
+		createHero();
 	}
 });
-
-
- $("#slot1").on("click", function() {
-		$("#card1").detach().appendTo("#slot2");
-		
-      });
