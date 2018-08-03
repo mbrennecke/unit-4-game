@@ -1,0 +1,26 @@
+load game
+	character tokens on each side of screen
+	
+	header
+		game name 
+		instructions
+			this is a card battle game
+			choose a card to be your champion
+		
+	main
+		instructions
+			click on your champion
+		move champion card to battle area
+		instructions
+			click on your opponent
+		move opponent to battle area
+		instructions
+			click on your champion to attack opponent
+		on click
+			roll attack to opponent
+			roll counterattack to champion
+			repeat until win or lose
+		repeat until champion win or lose
+		announce win or lose
+		reset game
+		
