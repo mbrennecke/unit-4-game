@@ -7,8 +7,6 @@ body{
 }
 
 #main {
-	width: 1024px;
-	height: 433px;
 	background-image: url("../images/1024px-Environments-22-cave.png");
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -16,8 +14,13 @@ body{
 
 .card {
 	height: 330px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
+
+.card-body {
+	padding-top: 0;
+}
+
 
 h1 {
 	color: #8ac3d9;
@@ -26,3 +29,29 @@ h1 {
 h3 {
 	color: #c6e8f2;
 }
+
+.hidden {
+	visibility: hidden;
+}
+
+#slot1, #slot5{
+	border-right: 3px solid #5c470d;
+}
+
+#slot4, #slot8{
+	border-left: 3px solid #5c470d;
+}
+
+.attack {
+	color: #ffc107;
+}
+
+.col-md-6 {
+	height: 350px;
+}
+
+.btn {
+	margin-top: 75px;
+	font-weight: 700;
+}
+
