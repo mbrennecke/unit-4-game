@@ -42,12 +42,27 @@ h3 {
 	border-left: 3px solid #5c470d;
 }
 
+#slot2, #slot3{
+	border-top: 3px solid #5c470d;
+	padding-top: 10px;
+	margin-bottom: -20px;
+}
+
+#slot6{
+	border-bottom: 3px solid #5c470d;
+	padding-top: -10px;
+}
+
 .attack {
 	color: #ffc107;
 }
 
-.col-md-6 {
+.col-md-3 {
 	height: 350px;
+}
+
+.top {
+	padding-top: 10px;
 }
 
 .btn {
