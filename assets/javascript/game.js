@@ -8,26 +8,35 @@ $(document).ready(function() {
 		health: 110,
 		attack: 11,
 		counter: 16,
-		attackInc: 11
+		attackInc: 11,
+		healthReturn : function(){return this.health}
 	};
 	var mage = {
 		health: 100,
 		attack: 10,
 		counter: 15,
-		attackInc: 10
+		attackInc: 10,
+		healthReturn : function(){return this.health}
 	};
 	var orc = {
 		health: 140,
 		attack: 14,
 		counter: 19,
-		attackInc: 14
+		attackInc: 14,
+		healthReturn : function(){return this.health}
 	};
 	var goblin = {
 		health: 120,
 		attack: 12,
 		counter: 17,
-		attackInc: 12
+		attackInc: 12,
+		healthReturn : function(){return this.health}
 	};
+	var elfPointer = elf.healthReturn();
+	var magePointer = mage.healthReturn();
+	var orcPointer = orc.healthReturn();
+	var goblinPointer = goblin.healthReturn();
+
 
 function gameReset() {
 	$(".hideButton").hide();
@@ -41,9 +50,12 @@ function gameReset() {
 	mage.attack = 10;
 	orc.attack = 14;
 	goblin.attack = 12;
-	$("#instructions").html("To begin the game click on your champion");
-}
 
+}
+// I spent too many hours trying to make this scalable, for getting the health data
+// I was too burnt to make the colPos scalable, as it would have required the same // hack
+// I spent hours checking scope and all possible ways to concatenate the string
+// to make the function work. When it worked, I quit and said, "it works"
 function cardPlaceReset() {
 	var colPos = [1, 4, 5, 8];
 	for (var i = 1; i <=4; i++){
@@ -55,12 +67,11 @@ function cardPlaceReset() {
 			$(card).removeClass("float-right");
 		}
 		}
+		var cardHP = $(card).data("name");
+		var test = cardHP + "Pointer";
+		var className = "." + cardHP;
+		$(className).text(eval(test) + " HP");
 	}
-	$(".mage").text("100 HP");
-	$(".goblin").text("120 HP");
-	$(".orc").text("140 HP");
-	$(".elf").text("110 HP");
-
 }
 
 function createHero() {
@@ -101,11 +112,13 @@ function dead(whoDead, card) {
 }
 
 function challengerDead(card){
-	
+	//var charCard = "#" + card;
+	$(card).empty;
 }
 
 function heroDead(card) {
 	cardPlaceReset();
+	$("#instructions").html("<span class='attack'>Hero defeated.</span> Click a new hero to play again");
 	gameReset();
 }
 
@@ -128,19 +141,22 @@ function damage(damageCard, attackCard, whoDead) {
 			dead(whoDead, damageCard);
 		}
 		$(".mage").text(mage.health + " HP");
-	} else if (damageCard == "#card2") {
+	} 
+	if (damageCard == "#card2") {
 		goblin.health -= attack;
 		if (goblin.health < 0) {
 			dead(whoDead, damageCard);
 		}
 		$(".goblin").text(goblin.health  + " HP");
-	} else if (damageCard == "#card3") {
+	}
+	if (damageCard == "#card3") {
 		orc.health -= attack;
 		if (orc.health < 0) {
 			dead(whoDead, damageCard);
 		}
 		$(".orc").text(orc.health  + " HP");
-	} else if (damageCard == "#card4" ) {
+	}
+	if (damageCard == "#card4" ) {
 		elf.health -= attack;
 		if (elf.health < 0) {
 			dead(whoDead, damageCard);
@@ -174,7 +190,6 @@ $(".btn").click(function(event) {
 	damage(challengerCard, heroCard, 1);
 	damage(heroCard, challengerCard, 2);
 	attackModifier(heroCard);
-	
 });
 
 gameReset();
