@@ -70,3 +70,21 @@ h3 {
 	font-weight: 700;
 }
 
+@media only screen and (max-height : 768px) {
+	 .card {
+		height: 190px;
+		margin-bottom: 20px;
+	}
+	img {
+		height: 109px;
+		width: 77px;
+		margin: 0 auto;
+	}
+	.jumbotron {
+		padding: 0;
+		margin: 20px 0;
+	}
+	.col-md-3 {
+	height: 190px;
+}
+}

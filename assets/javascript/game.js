@@ -219,7 +219,7 @@ $(".btn").click(function(event) {
 	damage(challengerCard, heroCard, 1);
 	damage(heroCard, challengerCard, 2);
 	if (winCheck){
-		gameReset();
+		gameReset() ;
 		return;
 	}
 	attackModifier(heroCard);
