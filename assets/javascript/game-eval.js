@@ -9,36 +9,37 @@ $(document).ready(function() {
 		attack: 11,
 		counter: 16,
 		attackInc: 11,
-		colPos: 8
+		healthReturn : function(){return this.health}
 	};
 	var mage = {
 		health: 100,
 		attack: 10,
 		counter: 15,
 		attackInc: 10,
-		colPos: 1
+		healthReturn : function(){return this.health}
 	};
 	var orc = {
 		health: 140,
 		attack: 14,
 		counter: 19,
 		attackInc: 14,
-		colPos: 5
+		healthReturn : function(){return this.health}
 	};
 	var goblin = {
 		health: 120,
 		attack: 12,
 		counter: 17,
 		attackInc: 12,
-		colPos: 4
+		healthReturn : function(){return this.health}
 	};
-	var challengersLeft = 3;
-	var winCheck = false;
+	var elfPointer = elf.healthReturn();
+	var magePointer = mage.healthReturn();
+	var orcPointer = orc.healthReturn();
+	var goblinPointer = goblin.healthReturn();
 
 
 function gameReset() {
 	$(".hideButton").hide();
-	$(".card").show();
 	champPicked = false;
 	challengerPicked = false;
 	elf.health = 110;
@@ -49,45 +50,27 @@ function gameReset() {
 	mage.attack = 10;
 	orc.attack = 14;
 	goblin.attack = 12;
-	challengersLeft = 3;
-	$(".mage").html( 100 + " HP");
-	$(".elf").html( 110 + " HP");
-	$(".orc").html( 140 + " HP");
-	$(".goblin").html( 120 + " HP");
-}
-
-function cardCase(card) {
-	var slot = "#slot";
-	switch($(card).data("name")) {
-		case "mage":
-			
-			slot += mage.colPos;
-			$(card).removeClass("float-right")
-			break;
-		case "elf":
-			
-			slot += elf.colPos;
-			break;
-		case "orc":
-			
-			slot += orc.colPos;
-			$(card).removeClass("float-right")
-			break;
-		case "goblin":
-			
-			slot += goblin.colPos;
-			break;
-		default:
-			break;
-		}
-		$(card).detach().appendTo(slot);
 
 }
-
+// I spent too many hours trying to make this scalable, for getting the health data
+// I was too burnt to make the colPos scalable, as it would have required the same // hack
+// I spent hours checking scope and all possible ways to concatenate the string
+// to make the function work. When it worked, I quit and said, "it works"
 function cardPlaceReset() {
+	var colPos = [1, 4, 5, 8];
 	for (var i = 1; i <=4; i++){
 		var card = "#card" + i;
-		cardCase(card);	
+		var slot = "#slot" + colPos[(i-1)];
+		$(card).detach().appendTo(slot);
+		if (slot == 1 || slot == 5) {
+			if ($(card).hasClass("float-right")) {
+			$(card).removeClass("float-right");
+		}
+		}
+		var cardHP = $(card).data("name");
+		var test = cardHP + "Pointer";
+		var className = "." + cardHP;
+		$(className).text(eval(test) + " HP");
 	}
 }
 
@@ -124,24 +107,13 @@ function dead(whoDead, card) {
 		challengerDead(card);
 	} 
 	if (whoDead == 2) {
-		heroDead();
+		heroDead(card);
 	}
 }
 
 function challengerDead(card){
-	cardCase(card);
-	$(card).hide();
-	challengerPicked = false;
-	$("#instructions").text("Pick next your challenger");
-	challengersLeft--;
-	if (challengersLeft == 0) {
-		$("#instructions").html("<span class='attack'>You Win!</span> Click a new hero to play again");
-		winCheck = true;
-		cardPlaceReset();
-		gameReset();
-		console.log("i happened reset");
-	};
-	
+	//var charCard = "#" + card;
+	$(card).empty;
 }
 
 function heroDead(card) {
@@ -211,19 +183,13 @@ $(".card").click(function(event) {
 	}
 	if (champPicked == false){
 		createHero();
-		winCheck = false;
 	} else {createChallenger();}
 });
 
 $(".btn").click(function(event) {
 	damage(challengerCard, heroCard, 1);
 	damage(heroCard, challengerCard, 2);
-	if (winCheck){
-		gameReset();
-		return;
-	}
 	attackModifier(heroCard);
-	console.log("i happened btn click")
 });
 
 gameReset();
