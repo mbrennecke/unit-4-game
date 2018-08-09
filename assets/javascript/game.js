@@ -35,7 +35,7 @@ $(document).ready(function() {
 	var challengersLeft = 3;
 	var winCheck = false;
 
-
+//Resets game after win or lose
 function gameReset() {
 	$(".hideButton").hide();
 	$(".card").show();
@@ -55,6 +55,8 @@ function gameReset() {
 	$(".orc").html( 140 + " HP");
 	$(".goblin").html( 120 + " HP");
 }
+
+//Function for reseting card position after defeat or end game
 
 function cardCase(card) {
 	var slot = "#slot";
@@ -84,12 +86,16 @@ function cardCase(card) {
 
 }
 
+//Function to call card place reset
+
 function cardPlaceReset() {
 	for (var i = 1; i <=4; i++){
 		var card = "#card" + i;
 		cardCase(card);	
 	}
 }
+
+//Function for first card chosen
 
 function createHero() {
 	var picked = event.target;
@@ -103,18 +109,25 @@ function createHero() {
 	$("#instructions").text("Pick your challenger");
 }
 
+//Function for remaining cards chosen at game start or after defeat
+
 function createChallenger() {
-	var picked = event.target;
-	picked = $(picked).data("cardelement");
-	challengerCard = ("#card" + picked);
-	if (!$(challengerCard).hasClass("float-right")) {
-		$(challengerCard).addClass("float-right");
-	}
-	$(challengerCard).detach().appendTo("#slot3");
-	challengerPicked = true;
-	$("#instructions").html("Click <span class='attack'>Attack</span> button to attack challenger");
-	$(".hideButton").show();
+
+		var picked = event.target;
+		picked = $(picked).data("cardelement");
+		challengerCard = ("#card" + picked);
+		if (challengerCard != heroCard){
+			if (!$(challengerCard).hasClass("float-right")) {
+				$(challengerCard).addClass("float-right");
+			}
+			$(challengerCard).detach().appendTo("#slot3");
+			challengerPicked = true;
+			$("#instructions").html("Click <span class='attack'>Attack</span> button to attack challenger");
+			$(".hideButton").show();
+		} else {return;}
 }
+
+//Function to check if a contender killed and whether it was a hero or challenger
 
 function dead(whoDead, card) {
 	if (mage.health > 0 && goblin.health > 0 && orc.health > 0 && elf.health > 0) { 
@@ -128,12 +141,15 @@ function dead(whoDead, card) {
 	}
 }
 
+//If challenger dies card needs reset and user instructed to choose another challenger
+
 function challengerDead(card){
 	cardCase(card);
 	$(card).hide();
 	challengerPicked = false;
 	$("#instructions").text("Pick next your challenger");
 	challengersLeft--;
+//Win condition check	
 	if (challengersLeft == 0) {
 		$("#instructions").html("<span class='attack'>You Win!</span> Click a new hero to play again");
 		winCheck = true;
@@ -144,12 +160,15 @@ function challengerDead(card){
 	
 }
 
+//Function if hero card defeated
+
 function heroDead(card) {
 	cardPlaceReset();
 	$("#instructions").html("<span class='attack'>Hero defeated.</span> Click a new hero to play again");
 	gameReset();
 }
 
+//Function for damage dealing from hero attack and counterattack
 
 function damage(damageCard, attackCard, whoDead) {
 	var attack = 0;
@@ -162,7 +181,7 @@ function damage(damageCard, attackCard, whoDead) {
 	} else if (attackCard == "#card4") {
 		attack = elf.attack;
 	} 
-		
+//mage card takes damage		
 	if (damageCard == "#card1") {
 		mage.health -= attack;
 		if (mage.health < 0) {
@@ -170,6 +189,7 @@ function damage(damageCard, attackCard, whoDead) {
 		}
 		$(".mage").text(mage.health + " HP");
 	} 
+//goblin card takes damage	
 	if (damageCard == "#card2") {
 		goblin.health -= attack;
 		if (goblin.health < 0) {
@@ -177,6 +197,7 @@ function damage(damageCard, attackCard, whoDead) {
 		}
 		$(".goblin").text(goblin.health  + " HP");
 	}
+//orc card takes damage	
 	if (damageCard == "#card3") {
 		orc.health -= attack;
 		if (orc.health < 0) {
@@ -184,6 +205,7 @@ function damage(damageCard, attackCard, whoDead) {
 		}
 		$(".orc").text(orc.health  + " HP");
 	}
+//elf card takes damage	
 	if (damageCard == "#card4" ) {
 		elf.health -= attack;
 		if (elf.health < 0) {
@@ -192,6 +214,8 @@ function damage(damageCard, attackCard, whoDead) {
 		$(".elf").text(elf.health  + " HP");
 	}	
 }
+
+//Function to set attack modifier for hero card
 
 function attackModifier (card) {
 	if (card == "#card1") {
@@ -204,16 +228,22 @@ function attackModifier (card) {
 		elf.attack += elf.attackInc;
 	} 
 }
+
+//listener event for hero and challenger selection
 		
-$(".card").click(function(event) {
+$(".card").on("click", function(event) {
 	if (challengerPicked){
 		return true;
 	}
 	if (champPicked == false){
 		createHero();
 		winCheck = false;
-	} else {createChallenger();}
+	} else {
+
+			createChallenger();}
 });
+
+//listener event for hero attack
 
 $(".btn").click(function(event) {
 	damage(challengerCard, heroCard, 1);
@@ -223,8 +253,9 @@ $(".btn").click(function(event) {
 		return;
 	}
 	attackModifier(heroCard);
-	console.log("i happened btn click")
 });
+
+//Initialize the game on load
 
 gameReset();
 
