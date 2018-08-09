@@ -245,7 +245,8 @@ $(".card").on("click", function(event) {
 
 //listener event for hero attack
 
-$(".btn").click(function(event) {
+$(".btn").on("click", function(event) {
+	if (!challengerPicked){return;}
 	damage(challengerCard, heroCard, 1);
 	damage(heroCard, challengerCard, 2);
 	if (winCheck){
