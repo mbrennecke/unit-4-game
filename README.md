@@ -14,6 +14,10 @@ This project is useful for learning javascript and jQuery in a basic game style.
 
 This project is maintained by Matthew Brennecke mbrennecke10@gmail.com
 
+## Link to project
+
+https://mbrennecke.github.io/unit-4-game/
+
 ## Artwork is all Creative Commons licensed
 
 elf: Kathrin "Kitty" Polikeit - http://chaosrealm.net/wtactics/2011/01/23/behind-the-artist-scenes-kitty/
